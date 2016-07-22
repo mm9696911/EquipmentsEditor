@@ -4,12 +4,12 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace EquipmentsEditor.Services
 {
     public static class CommonService
     {
-        #region 内存回收
         [DllImport("kernel32.dll", EntryPoint = "SetProcessWorkingSetSize")]
         public static extern int SetProcessWorkingSetSize(IntPtr process, int minSize, int maxSize);
         /// <summary>   
@@ -24,6 +24,12 @@ namespace EquipmentsEditor.Services
                 SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1);
             }
         }
-        #endregion
+
+
+
+        public static void ShowErrorMessage(string message)
+        {
+            MessageBox.Show(message);
+        }
     }
 }

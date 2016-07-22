@@ -14,24 +14,16 @@ namespace EquipmentsEditor.Services
         public string equipmentNameStr = string.Empty;
         public string fileStr = string.Empty;
 
-        public LoadDataService(string filePath)
+        public LoadDataService()
         {
-            string localisationFilePath = System.IO.Directory.GetCurrentDirectory() + "\\localisation\\r_equipment_l_english.yml";
+            string localisationFilePath = System.IO.Directory.GetCurrentDirectory() + "\\localisation\\equipment.yml";
             equipmentNameStr = GetFileStream(localisationFilePath);
 
-             fileStr = GetFileStream(filePath);
         }
 
-        public List<Country> LoadCountry()
+        public void LoadData(DataModel dataModel, string filePath)
         {
-            List<Country> returnList = new List<Country>();
-
-            return returnList;
-        }
-
-        public DataModel LoadData()
-        {
-            DataModel returnModel = new DataModel();
+            fileStr = GetFileStream(filePath);
 
             #region 国家基本信息
 
@@ -55,7 +47,7 @@ namespace EquipmentsEditor.Services
 
                     foreach (string str in list)
                     {
-                        Equipment equipment = new Equipment();
+                        EquipmentBasicModel equipment = new EquipmentBasicModel();
 
                         equipment.Id = GetAttributeTypeOfNumber(str, "id");
                         equipment.Rank = str.Split('^')[0];
@@ -74,29 +66,69 @@ namespace EquipmentsEditor.Services
                         {
                             equipment.Name = GetEquipmentName(enumName, equipment.Creator, equipment.Rank);
                         }
-
-                        returnModel.EquipmentsList.Add(equipment);
+                        dataModel.EquipmentsBasicList.Add(equipment);
                     }
                 }
             }
             #endregion
 
             #region 具体国家信息
-            string countriesStr_Org = fileStr.Substring(fileStr.IndexOf("countries="), fileStr.IndexOf("faction") - fileStr.IndexOf("countries="));
-
+            string countriesStr_Org = fileStr.Substring(fileStr.IndexOf("\r\ncountries="), fileStr.IndexOf("\r\nfaction") - fileStr.IndexOf("\r\ncountries="));
             string countriesAnotherStr = "";
             string countriesReplaceStr = countriesStr_Org;
+
             List<string> countriesTextList = SpiltText(countriesReplaceStr, "countries=", out countriesAnotherStr);
             if (countriesTextList.Count > 0)
             {
+                foreach (CountryModel country in dataModel.CountriesList)
+                {
+                    countriesAnotherStr = countriesTextList[0];
 
+                    List<string> list = SpiltText(countriesAnotherStr, new StringBuilder().AppendFormat("\r\n\t{0}=", country.ShortName.ToLower()).ToString(), out countriesAnotherStr);
+
+                    foreach (string str in list)
+                    {
+                        string availableAnotherStr = str;
+                        List<string> list1 = SpiltText(availableAnotherStr, "available_equipments=", out availableAnotherStr);
+                        if (list1.Count > 0)
+                        {
+                            string availableEquipmentsAnotherStr = list1[0];
+                            List<string> availableEquipmentsTextList = SpiltText(availableEquipmentsAnotherStr, "equipment=", out availableEquipmentsAnotherStr);
+
+                            foreach (string availableEquipmentStr in availableEquipmentsTextList)
+                            {
+                                string availableEquipmentId = GetAttributeTypeOfNumber(availableEquipmentStr, "id");
+                                EquipmentBasicModel aaa = dataModel.EquipmentsBasicList.Find(e => e.Id == availableEquipmentId);
+                                if (aaa != null)
+                                    country.AvailableEquipmentsList.Add(aaa);
+                            }
+                        }
+                        string foreignAnotherStr = str;
+                        List<string> list2 = SpiltText(foreignAnotherStr, "foreign_lease_equipments", out foreignAnotherStr);
+                        if (list2.Count > 0)
+                        {
+                            string foreignEquipmentsAnotherStr = list2[0];
+                            List<string> foreignEquipmentsTextList = SpiltText(foreignEquipmentsAnotherStr, "equipment=", out foreignEquipmentsAnotherStr);
+
+                            foreach (string foreignEquipmentStr in foreignEquipmentsTextList)
+                            {
+                                string foreignEquipmentId = GetAttributeTypeOfNumber(foreignEquipmentStr, "id");
+                                EquipmentBasicModel bbb = dataModel.EquipmentsBasicList.Find(e => e.Id == foreignEquipmentId);
+                                if (bbb != null)
+                                    country.ForeignLeaseEquipmentsList.Add(bbb);
+                                //country.ForeignLeaseEquipmentsList.Add(dataModel.EquipmentsBasicList.Find(e => e.Id == foreignEquipmentId));
+                            }
+                        }
+                    }
+
+                }
             }
             #endregion
 
             CommonService.ClearMemory();
-            return returnModel;
+            //return returnModel;
         }
-        
+
         private string GetEquipmentName(string type, string creator, string rank)
         {
             string returnStr = "";
@@ -159,7 +191,7 @@ namespace EquipmentsEditor.Services
         /// </summary>
         /// <param name="path">指定路径文件</param>
         /// <returns></returns>
-        private string GetFileStream(string path)
+        public string GetFileStream(string path)
         {
             if (!File.Exists(path))
             {
@@ -250,6 +282,19 @@ namespace EquipmentsEditor.Services
                 }
             }
             return returnList;
+        }
+
+        public void text(string value)
+        {
+
+            //change();
+            string path = "c:\\TextMessage.txt";
+            FileStream f = new FileStream(path, FileMode.Truncate, FileAccess.Write, FileShare.ReadWrite);
+            StreamWriter sw = new StreamWriter(f);
+            sw.WriteLine(value);
+            sw.Flush();
+            sw.Close();
+            f.Close();
         }
     }
 }

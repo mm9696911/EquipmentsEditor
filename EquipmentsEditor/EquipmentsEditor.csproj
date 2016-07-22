@@ -57,9 +57,9 @@
       <DependentUpon>SysConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\XmlHelper.cs" />
-    <Compile Include="Model\Country.cs" />
+    <Compile Include="Model\CountryModel.cs" />
     <Compile Include="Model\DataModel.cs" />
-    <Compile Include="Model\Equipment.cs" />
+    <Compile Include="Model\EquipmentBasicModel.cs" />
     <Compile Include="Model\EquipmentTypeEnum.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,24 +85,19 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="localisation\r_countries_l_english.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="localisation\countries.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="localisation\r_equipment_l_english.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="localisation\countries_full.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="localisation\r_equip_air_l_english.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="localisation\r_countries_l_english.yml" />
+    <None Include="localisation\equipment.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="localisation\r_equip_naval_l_english.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="localisation\r_state_names_l_english.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="localisation\r_traits_l_english.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="localisation\equipment_naval.yml" />
+    <None Include="localisation\r_state_names_l_english.yml" />
+    <None Include="localisation\r_traits_l_english.yml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

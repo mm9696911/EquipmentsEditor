@@ -10,10 +10,10 @@ namespace EquipmentsEditor.Model
     {
         public DataModel()
         {
-            CountriesList = new List<Country>();
-            EquipmentsList = new List<Equipment>();
+            CountriesList = new List<CountryModel>();
+            EquipmentsBasicList = new List<EquipmentBasicModel>();
         }
-        public List<Country> CountriesList { get; set; }
-        public List<Equipment> EquipmentsList { get; set; }
+        public List<CountryModel> CountriesList { get; set; }
+        public List<EquipmentBasicModel> EquipmentsBasicList { get; set; }
     }
 }

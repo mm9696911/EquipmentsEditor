@@ -1,4 +1,5 @@
 ﻿using EquipmentsEditor.Helper;
+using EquipmentsEditor.Model;
 using EquipmentsEditor.Services;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,31 @@ namespace EquipmentsEditor.Forms
 {
     public partial class Main : Form
     {
-        LoadDataService loadData;
+        LoadDataService loadDataService = new LoadDataService();
+        DataModel dataModel = new DataModel();
         public Main()
         {
             InitializeComponent();
-            //OpaqueCommand cmd = new OpaqueCommand();
-            //cmd.ShowOpaqueLayer(this, 125, true);
+            LoadBasicData();
+        }
+
+        private void LoadBasicData()
+        {
+            string countriesFilePath = System.IO.Directory.GetCurrentDirectory() + "\\localisation\\countries.yml";
+            string countriesNameStr = loadDataService.GetFileStream(countriesFilePath);
+            foreach (string countriesName in countriesNameStr.Split(';'))
+            {
+                string countriesNameRLStr = countriesName.Replace("\t", " ").Replace("\n", " ").Replace("\r", " ").Replace(" ", "");
+                if (!string.IsNullOrEmpty(countriesNameRLStr))
+                {
+                    CountryModel country = new CountryModel(countriesNameRLStr.Split(':')[0], countriesNameRLStr.Split(':')[1]);
+                    dataModel.CountriesList.Add(country);
+
+                    ListViewItem item = new ListViewItem(country.ShortName);
+                    item.ToolTipText = country.Name;
+                    this.LV_Countries.Items.Add(item);
+                }
+            }
         }
 
         private void 打开存档ToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -41,15 +61,21 @@ namespace EquipmentsEditor.Forms
                     bool isSuccess = xmlHelper.SaveToXML("GamePath", saveGamePath);
                 }
 
-                loadData = new LoadDataService(saveGamePath);
-                this.dataGridView1.DataSource = loadData.LoadData();
+                //loadDataService = new LoadDataService(saveGamePath);
 
-                //text(aaa);
+                loadDataService.LoadData(dataModel,saveGamePath);
+
+                //foreach (CountryModel country in dataModel.CountriesList)
+                //{
+                //    ListViewItem item = new ListViewItem(country.ShortName);
+                //    item.ToolTipText = country.Name;
+                //    this.lv_Country.Items.Add(item);
+                //}
+                //this.lv_Country.DataBindings=;
+
                 //MessageBox.Show("已选择文件:" + saveGamePath, "选择文件提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
-
 
         public void text(string value)
         {
@@ -62,6 +88,22 @@ namespace EquipmentsEditor.Forms
             sw.Flush();
             sw.Close();
             f.Close();
+        }
+
+        private void LV_Countries_Click(object sender, EventArgs e)
+        {
+            string shortName= this.LV_Countries.FocusedItem.Text;
+
+            CountryModel country = dataModel.CountriesList.Find(c => c.ShortName == shortName);
+
+            if (country != null)
+            {
+                this.dataGridView1.DataSource = country.AvailableEquipmentsList;
+                //this.dataGridView1.datab();
+
+                this.dataGridView2.DataSource = country.AvailableEquipmentsList;
+                //this.dataGridView1.DataBindings();
+            }
         }
     }
 }
