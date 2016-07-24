@@ -21,7 +21,7 @@ namespace EquipmentsEditor.Model
         /// <summary>
         /// 名称
         /// </summary>
-        public string Name { get; set; }
+        public string EquipmentName { get; set; }
         /// <summary>
         /// 
         /// </summary>

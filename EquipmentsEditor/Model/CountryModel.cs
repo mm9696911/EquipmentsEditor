@@ -8,16 +8,18 @@ namespace EquipmentsEditor.Model
 {
     public class CountryModel
     {
+        public CountryModel()
+        { 
+        
+        }
         public CountryModel(string shortName, string name)
         {
             this.ShortName = shortName;
             this.Name = name;
-            AvailableEquipmentsList = new List<EquipmentBasicModel>();
-            ForeignLeaseEquipmentsList = new List<EquipmentBasicModel>();
+            EquipmentsList = new List<EquipmentModel>();
         }
         public string ShortName { get; set; }
         public string Name { get; set; }
-        public List<EquipmentBasicModel> AvailableEquipmentsList { get; set; }
-        public List<EquipmentBasicModel> ForeignLeaseEquipmentsList { get; set; }
+        public List<EquipmentModel> EquipmentsList { get; set; }
     }
 }

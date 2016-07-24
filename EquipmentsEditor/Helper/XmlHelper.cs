@@ -42,7 +42,7 @@ namespace EquipmentsEditor.Helper
         {
             List<string> list = new List<string>();
             XmlDocument xmlDoc = new XmlDocument();
-            string strResult = ""; //找不到匹配的项;  
+            //string strResult = ""; //找不到匹配的项;  
             if (File.Exists(filePath))
             {
                 xmlDoc.Load(filePath);

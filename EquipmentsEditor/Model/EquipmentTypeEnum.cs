@@ -8,6 +8,34 @@ namespace EquipmentsEditor.Model
 {
     public enum EquipmentTypeEnum
     {
+        motorized_equipment,
+        support_equipment,
+        light_tank_equipment,
+        medium_tank_equipment,
+        heavy_tank_equipment,
+        modern_tank_equipment,
+        mechanized_equipment,
+        anti_air_equipment,
+        infantry_equipment,
+        artillery_equipment,
+        anti_tank_equipment,
+        rocket_artillery_equipment,
+        CAS_equipment,
+        cv_CAS_equipment,
+        tac_bomber_equipment,
+        heavy_fighter_equipment,
+        fighter_equipment,
+        strat_bomber_equipment,
+        nav_bomber_equipment,
+        transport_plane_equipment,
+
+
+
+
+    }
+
+    public enum EquipmentEnum
+    {
         anti_air_equipment,
         anti_tank_equipment,
         artillery_equipment,
@@ -51,7 +79,15 @@ namespace EquipmentsEditor.Model
         super_heavy_tank_aa_equipment,
         tac_bomber_equipment,
         jet_tac_bomber_equipment,
-        heavy_fighter_equipment
-
+        heavy_fighter_equipment,
+        submarine,
+        destroyer,
+        light_cruiser,
+        heavy_cruiser,
+        battleship,
+        SH_battleship,
+        battle_cruiser,
+        carrier,
+        gw_tank_equipment
     }
 }
