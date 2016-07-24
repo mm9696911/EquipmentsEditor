@@ -107,7 +107,7 @@ namespace EquipmentsEditor.Services
                             startIndexList.Add(stratIndex);
                             endIndexList.Add(rightBraceStratIndex + 1);
 
-                            stratIndex = str.ToLower().IndexOf(matchStr, rightBraceStratIndex);
+                            stratIndex = str.ToLower().IndexOf(matchStr.ToLower(), rightBraceStratIndex);
                             if (stratIndex > -1)
                             {
                                 leftBraceStratIndex = str.IndexOf("{", stratIndex);

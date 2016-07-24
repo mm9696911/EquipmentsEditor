@@ -41,7 +41,7 @@ namespace EquipmentsEditor.Forms
 
             FileDialog fileDialog = new OpenFileDialog();
             fileDialog.Title = "请选择文件";
-            //fileDialog.Filter = "所有文件(*.hoi4*)|*.hoi4*";
+            fileDialog.Filter = "所有文件(*.hoi4*)|*.hoi4*";
             fileDialog.Filter = "所有文件(*.*)|*.*";
             fileDialog.InitialDirectory = "";
 
@@ -52,8 +52,6 @@ namespace EquipmentsEditor.Forms
                 {
                     this.LV_Countries.Items.Clear();
                     this.tv_EquipmentType.Nodes.Clear();
-                    //XmlHelper xmlHelper = new XmlHelper();
-                    //bool isSuccess = xmlHelper.SaveToXML("GamePath", saveGamePath);
                     originalFilePath = saveGamePath;
                     loadDataService.LoadBacisData(dataModel, saveGamePath);
                     foreach (CountryModel country in dataModel.CountriesList)
@@ -71,7 +69,7 @@ namespace EquipmentsEditor.Forms
         {
             FileDialog fileDialog = new OpenFileDialog();
             fileDialog.Title = "请选择文件";
-            //fileDialog.Filter = "所有文件(*.hoi4*)|*.hoi4*";
+            fileDialog.Filter = "所有文件(*.hoi4*)|*.hoi4*";
             fileDialog.Filter = "所有文件(*.*)|*.*";
             fileDialog.InitialDirectory = "";
 
@@ -82,12 +80,40 @@ namespace EquipmentsEditor.Forms
                 {
                     string fileStr = new GenerateServices(originalFilePath, dataModel, country).GenerateCode();
 
-                    FileStream fs1 = new FileStream(saveGamePath, FileMode.Create, FileAccess.Write);//创建写入文件 
-                    StreamWriter sw = new StreamWriter(fs1, Encoding.UTF8);
-                    sw.WriteLine(fileStr);//开始写入值
 
-                    sw.Close();
-                    fs1.Close();
+                    StreamWriter sw = null;
+                    try
+                    {
+                        UTF8Encoding utf8 = new UTF8Encoding(false);
+
+                        using (sw = new StreamWriter(saveGamePath, false, utf8))
+                        {
+                            sw.Write(fileStr);
+                        }
+
+                    }
+
+                    catch
+                    {
+                        throw new Exception("存储路径错误,请检查路径" + saveGamePath + "是否存在!");
+                    }
+
+                    finally
+                    {
+                        sw.Close();
+                        CommonService.ShowErrorMessage("保存成功！");
+                    }
+
+                    //   FileStream fs1 = new FileStream(saveGamePath, FileMode.Create, FileAccess.Write);//创建写入文件 
+                    //   UTF8Encoding utf8 = new UTF8Encoding(false);
+
+                    //UTF8Encoding utf8 = new UTF8Encoding(false);
+
+                    //   StreamWriter sw = new StreamWriter(fs1, false, utf8);
+                    //   sw.WriteLine(fileStr);//开始写入值
+
+                    //   sw.Close();
+                    //   fs1.Close();
                 }
             }
         }
