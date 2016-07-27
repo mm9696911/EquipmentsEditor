@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Equipments >
+  <EquipmentType id="artillery_equipment" name="牵引式火炮">
+  </EquipmentType>
+  <EquipmentType id="anti_tank_equipment" name="牵引式反坦克炮">
+  </EquipmentType>
+  <EquipmentType id="anti_air_equipment" name="牵引式防空炮">
+  </EquipmentType>
+  <EquipmentType id="rocket_artillery_equipment" name="牵引式火箭炮">
+  </EquipmentType>
+  <EquipmentType id="infantry_equipment" name="步兵装备">
+  </EquipmentType>
+  <EquipmentType id="support_equipment" name="支援装备">
+  </EquipmentType>
+  <EquipmentType id="motorized_equipment" name="摩托化装备">
+  </EquipmentType>
+  <EquipmentType id="mechanized_equipment" name="机械化步兵">
+  </EquipmentType>
+  <EquipmentType id="light_tank_equipment" name="轻型坦克">
+    <Equipment id="light_tank_equipment">
+    </Equipment>
+    <Equipment id="light_tank_artillery_equipment">
+    </Equipment>
+    <Equipment id="light_tank_destroyer_equipment">
+    </Equipment>
+    <Equipment id="light_tank_aa_equipment">
+    </Equipment>
+  </EquipmentType>
+  <EquipmentType id="medium_tank_equipment" name="中型坦克">
+    <Equipment id="medium_tank_equipment">
+    </Equipment>
+    <Equipment id="medium_tank_artillery_equipment">
+    </Equipment>
+    <Equipment id="medium_tank_destroyer_equipment">
+    </Equipment>
+    <Equipment id="medium_tank_aa_equipment">
+    </Equipment>
+  </EquipmentType>
+  <EquipmentType id="heavy_tank_equipment" name="重型坦克">
+    <Equipment id="heavy_tank_equipment">
+    </Equipment>
+    <Equipment id="heavy_tank_artillery_equipment">
+    </Equipment>
+    <Equipment id="heavy_tank_destroyer_equipment">
+    </Equipment>
+    <Equipment id="heavy_tank_aa_equipment">
+    </Equipment>
+  </EquipmentType>
+  <EquipmentType id="super_heavy_tank_equipment" name="超重型坦克">
+    <Equipment id="super_heavy_tank_equipment">
+    </Equipment>
+    <Equipment id="super_heavy_tank_artillery_equipment">
+    </Equipment>
+    <Equipment id="super_heavy_tank_destroyer_equipment">
+    </Equipment>
+    <Equipment id="super_heavy_tank_aa_equipment">
+    </Equipment>
+  </EquipmentType>
+  <EquipmentType id="modern_tank_equipment" name="现代坦克">
+    <Equipment id="modern_tank_equipment">
+    </Equipment>
+    <Equipment id="modern_tank_artillery_equipment">
+    </Equipment>
+    <Equipment id="modern_tank_destroyer_equipment">
+    </Equipment>
+    <Equipment id="modern_tank_aa_equipment">
+    </Equipment>
+  </EquipmentType>
+  <EquipmentType id="motorized_rocket_equipment" name="自行火箭炮">
+  </EquipmentType>
+  <EquipmentType id="fighter_equipment" name="战斗机">
+    <Equipment id="fighter_equipment">
+    </Equipment>
+    <Equipment id="jet_fighter_equipment">
+    </Equipment>
+    <Equipment id="rocket_interceptor_equipment">
+    </Equipment>
+    <Equipment id="rocket_suicide_equipment">
+    </Equipment>
+  </EquipmentType>
+  <EquipmentType id="cv_fighter_equipment" name="舰载战斗机">
+  </EquipmentType>
+  <EquipmentType id="rocket_interceptor_equipment" name="喷气式截击机">
+  </EquipmentType>
+  <EquipmentType id="heavy_fighter_equipment" name="重型战斗机">
+  </EquipmentType>
+  <EquipmentType id="tac_bomber_equipment" name="战术轰炸机">
+    <Equipment id="tac_bomber_equipment">
+    </Equipment>
+    <Equipment id="jet_tac_bomber_equipment">
+    </Equipment>
+  </EquipmentType>
+  <EquipmentType id="nav_bomber_equipment" name="海军轰炸机">
+  </EquipmentType>
+  <EquipmentType id="cv_nav_bomber_equipment" name="舰载海军轰炸机">
+  </EquipmentType>
+  <EquipmentType id="CAS_equipment" name="近距支援机">
+  </EquipmentType>
+  <EquipmentType id="cv_CAS_equipment" name="舰载近距支援机">
+  </EquipmentType>
+  <EquipmentType id="strat_bomber_equipment" name="战略轰炸机">
+    <Equipment id="strat_bomber_equipment">
+    </Equipment>
+    <Equipment id="jet_strat_bomber_equipment">
+    </Equipment>
+  </EquipmentType>
+  <EquipmentType id="convoy" name="运输船">
+  </EquipmentType>
+  <EquipmentType id="transport_plane_equipment" name="运输机">
+  </EquipmentType>
+  <EquipmentType id="guided_missile_equipment" name="导弹">
+  </EquipmentType>
+</Equipments>
