@@ -2,11 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace EquipmentsEditor.Services
 {
@@ -84,9 +81,9 @@ namespace EquipmentsEditor.Services
             List<string> countriesTextList = CommonService.SpiltText(countriesReplaceStr, "countries=", out countriesAnotherStr);
             if (countriesTextList.Count > 0)
             {
-                string aaabbb = countriesTextList[0];
+                string str = countriesTextList[0];
                 Regex regex = new Regex("[\\r][\\n][\\t][A-Z]{3}|[\\r][\\n][\\t][A-Z]{1}[0-9]{2}", RegexOptions.Singleline);
-                MatchCollection matchCollections = regex.Matches(aaabbb);
+                MatchCollection matchCollections = regex.Matches(str);
 
                 for (int i = 0; i < matchCollections.Count; i++)
                 {

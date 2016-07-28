@@ -1,15 +1,10 @@
-﻿using EquipmentsEditor.Helper;
-using EquipmentsEditor.Model;
+﻿using EquipmentsEditor.Model;
 using EquipmentsEditor.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -26,14 +21,6 @@ namespace EquipmentsEditor.Forms
         {
             InitializeComponent();
             this.dataGridView1.AutoGenerateColumns = false;
-
-            //loadDataService.LoadBacisData(dataModel, System.IO.Directory.GetCurrentDirectory() + "\\autosave.hoi4");
-            //foreach (CountryModel country in dataModel.CountriesList)
-            //{
-            //    ListViewItem item = new ListViewItem(country.Name);
-            //    item.ToolTipText = country.ShortName;
-            //    this.LV_Countries.Items.Add(item);
-            //}
         }
 
         private void 打开存档ToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -67,23 +54,51 @@ namespace EquipmentsEditor.Forms
 
         private void 生成存档ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            #region 判断是否修改
+            if (dataModel.CountriesList.Count(c => c.IsChanged == true) == 0)
+            {
+                CommonService.ShowErrorMessage("内容没有被修改，无法保存！");
+            }
+            #endregion
+
             FileDialog fileDialog = new OpenFileDialog();
             fileDialog.Title = "请选择文件";
             fileDialog.Filter = "所有文件(*.hoi4*)|*.hoi4*";
             fileDialog.Filter = "所有文件(*.*)|*.*";
             fileDialog.InitialDirectory = "";
+            fileDialog.CheckFileExists = false;
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 string saveGamePath = fileDialog.FileName;
                 if (!string.IsNullOrEmpty(saveGamePath))
                 {
-                    string fileStr = new GenerateServices(originalFilePath, dataModel, country).GenerateCode();
-
+                    string fileStr = new GenerateServices(originalFilePath, dataModel).GenerateCode();
 
                     StreamWriter sw = null;
                     try
                     {
+                        #region 判断文件或文件夹是否存在，不存在则创建
+                        string filepath = saveGamePath.Substring(0, saveGamePath.LastIndexOf("\\"));
+                        if (!Directory.Exists(filepath))  //不存在文件夹，创建
+                        {
+                            Directory.CreateDirectory(filepath);  //创建新的文件夹
+                        }
+
+                        if (saveGamePath.IndexOf('.') > -1)
+                        {
+                            saveGamePath = saveGamePath.Remove(saveGamePath.LastIndexOf('.'));
+                        }
+                        saveGamePath += ".hoi4";
+
+                        FileInfo file = new FileInfo(saveGamePath);
+                        if (!file.Exists)
+                        {
+                            FileStream fs = File.Create(saveGamePath);  //创建文件
+                            fs.Close();
+                        }
+                        #endregion
+
                         UTF8Encoding utf8 = new UTF8Encoding(false);
 
                         using (sw = new StreamWriter(saveGamePath, false, utf8))
@@ -92,28 +107,15 @@ namespace EquipmentsEditor.Forms
                         }
 
                     }
-
                     catch
                     {
                         throw new Exception("存储路径错误,请检查路径" + saveGamePath + "是否存在!");
                     }
-
                     finally
                     {
                         sw.Close();
                         CommonService.ShowErrorMessage("保存成功！");
                     }
-
-                    //   FileStream fs1 = new FileStream(saveGamePath, FileMode.Create, FileAccess.Write);//创建写入文件 
-                    //   UTF8Encoding utf8 = new UTF8Encoding(false);
-
-                    //UTF8Encoding utf8 = new UTF8Encoding(false);
-
-                    //   StreamWriter sw = new StreamWriter(fs1, false, utf8);
-                    //   sw.WriteLine(fileStr);//开始写入值
-
-                    //   sw.Close();
-                    //   fs1.Close();
                 }
             }
         }
@@ -184,6 +186,7 @@ namespace EquipmentsEditor.Forms
             BindGridview(equipTypeStr);
 
         }
+
         private void BindGridview(string equipTypeStr)
         {
             List<EquipmentModel> list = FindEquipmentByTreeNode(this.tv_EquipmentType.SelectedNode, equipTypeStr);
@@ -248,6 +251,7 @@ namespace EquipmentsEditor.Forms
             {
                 string id = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
                 EquipmentModel model = country.EquipmentsList.Find(eq => eq.Id == id);
+                country.IsChanged = true;
 
                 string quantityStr = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                 double quantity = 0;

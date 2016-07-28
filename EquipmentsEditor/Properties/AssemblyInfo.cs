@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("EquipmentsEditor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("mm9696911")]
 [assembly: AssemblyProduct("EquipmentsEditor")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
+[assembly: AssemblyCopyright("mm9696911")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

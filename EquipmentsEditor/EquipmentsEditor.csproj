@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>OOBEditor.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -83,6 +86,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="bin\Release\EquipmentsEditor.exe.config" />
+    <None Include="bin\Release\EquipmentsEditor.vshost.exe.config" />
+    <None Include="bin\Release\EquipmentsEditor.vshost.exe.manifest" />
+    <None Include="bin\Release\localisation\countries.yml" />
+    <None Include="bin\Release\localisation\countries_full.yml" />
+    <None Include="bin\Release\localisation\equipment.yml" />
     <None Include="localisation\countries.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -113,9 +122,14 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Release\ConfigFile\Equipment.xml" />
+    <Content Include="bin\Release\EquipmentsEditor.exe" />
+    <Content Include="bin\Release\EquipmentsEditor.pdb" />
+    <Content Include="bin\Release\EquipmentsEditor.vshost.exe" />
     <Content Include="ConfigFile\Equipment.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="OOBEditor.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

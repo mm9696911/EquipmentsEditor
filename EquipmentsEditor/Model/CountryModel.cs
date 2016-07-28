@@ -17,9 +17,11 @@ namespace EquipmentsEditor.Model
             this.ShortName = shortName;
             this.Name = name;
             EquipmentsList = new List<EquipmentModel>();
+            IsChanged = false;
         }
         public string ShortName { get; set; }
         public string Name { get; set; }
         public List<EquipmentModel> EquipmentsList { get; set; }
+        public bool IsChanged { get; set; }
     }
 }
