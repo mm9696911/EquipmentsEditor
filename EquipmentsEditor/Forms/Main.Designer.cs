@@ -50,7 +50,6 @@
             this.CountryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsForigen = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ob = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -115,7 +114,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(193, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -253,16 +251,6 @@
             this.ob.ReadOnly = true;
             this.ob.TrueValue = "yes";
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(852, 338);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "陆军";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -299,7 +287,6 @@
         private System.Windows.Forms.GroupBox gb_EquipmentType;
         private System.Windows.Forms.TreeView tv_EquipmentType;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn TypeStr;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;

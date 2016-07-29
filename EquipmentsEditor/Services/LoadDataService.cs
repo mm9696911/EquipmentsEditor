@@ -12,6 +12,32 @@ namespace EquipmentsEditor.Services
         public string equipmentNameStr = string.Empty;
         public string countriesNameStr = string.Empty;
         public string fileStr = string.Empty;
+        public int needLoadDataSumNumber = 200;
+        public int needLoadDataNumber = 3;
+        private string _filePath = string.Empty;
+        public string filePath
+        {
+            set
+            {
+                _filePath = value;
+            }
+            get {
+                return _filePath;
+            }
+        }
+        DataModel _dataModel = new DataModel();
+        public DataModel dataModel
+        {
+            set
+            {
+                _dataModel = value;
+            }
+            get
+            {
+                return _dataModel;
+            }
+        }
+
 
         public LoadDataService()
         {
@@ -20,14 +46,22 @@ namespace EquipmentsEditor.Services
 
             string countriesFilePath = System.IO.Directory.GetCurrentDirectory() + "\\localisation\\countries_full.yml";
             countriesNameStr = CommonService.GetFileStream(countriesFilePath);
+
         }
 
-        public void LoadBacisData(DataModel dataModel, string filePath)
+        public void LoadBacisData( Action<int> percent)
         {
+            needLoadDataNumber = 3;
             fileStr = CommonService.GetFileStream(filePath);
 
+            //进度条
+            percent(1);
+            
             #region 装备基本数据
             string equipmentsStr_Org = fileStr.Substring(fileStr.IndexOf("equipments="), fileStr.IndexOf("division_templates") - fileStr.IndexOf("equipments="));
+            
+            //进度条
+            percent(2);
 
             string equipmentsAnotherStr = "";
             //string equipmentsReplaceStr = equipmentsStr_Org.Replace("\t", " ").Replace("\n", " ").Replace("\r", " ").Replace(" ", "");
@@ -68,6 +102,9 @@ namespace EquipmentsEditor.Services
                             equipment.EquipmentName = GetEquipmentName(enumName, equipment.Creator, equipment.Rank);
                         }
                         dataModel.EquipmentsBasicList.Add(equipment);
+                        //进度条
+                        percent(needLoadDataNumber / 30);
+                        needLoadDataNumber++;
                     }
                 }
             }
@@ -87,21 +124,40 @@ namespace EquipmentsEditor.Services
 
                 for (int i = 0; i < matchCollections.Count; i++)
                 {
-                    string countryShortName = matchCollections[i].Value.Replace("\t", " ").Replace("\n", " ").Replace("\r", " ").Replace(" ", ""); ;
-                    CountryModel country = new CountryModel(countryShortName, GetCountryName(countryShortName));
-                    if (string.IsNullOrEmpty(country.Name))
+                    int theatresNum = 0;
+                    if (i > 0)
                     {
-                        country.Name = country.ShortName;
+                        int beforeStart = CommonService.KmpIndexOf(str, matchCollections[i - 1].Value);
+                        int currentStart = CommonService.KmpIndexOf(str, matchCollections[i].Value);
+                        theatresNum = str.IndexOf("theatres", beforeStart, currentStart - beforeStart);
+                        if (theatresNum <= 0)
+                        {
+                            dataModel.CountriesList.RemoveAt(dataModel.CountriesList.Count - 1);
+                        }
                     }
-                    dataModel.CountriesList.Add(country);
+                    //if (theatresNum > 0 || i==0)
+                    //{
+
+                        string countryShortName = matchCollections[i].Value.Replace("\t", " ").Replace("\n", " ").Replace("\r", " ").Replace(" ", ""); ;
+                        CountryModel country = new CountryModel(countryShortName, GetCountryName(countryShortName));
+                        if (string.IsNullOrEmpty(country.Name))
+                        {
+                            country.Name = country.ShortName;
+                        }
+                        dataModel.CountriesList.Add(country);
+                    //}
+                    //进度条
+                    percent(needLoadDataNumber / 30 + i * 70 / matchCollections.Count);
                 }
             }
             #endregion
 
+            //进度条
+            percent(100);
             CommonService.ClearMemory();
         }
 
-        public void LoadDataByCountry(DataModel dataModel, CountryModel model)
+        public void LoadDataByCountry(CountryModel model)
         {
             string countriesStr_Org = fileStr.Substring(fileStr.IndexOf("\r\ncountries="), fileStr.IndexOf("\r\nfaction") - fileStr.IndexOf("\r\ncountries="));
             string countriesAnotherStr = "";
@@ -174,8 +230,6 @@ namespace EquipmentsEditor.Services
 
             }
         }
-
-
 
 
 
