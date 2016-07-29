@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Process;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -130,5 +131,71 @@ namespace EquipmentsEditor.Services
         {
             MessageBox.Show(message);
         }
+
+        #region 字符串搜索
+        /// <summary>
+        /// 查找算法
+        /// </summary>
+        /// <param name="source">要搜索的字符串</param>
+        /// <param name="subString">子串</param>
+        /// <returns>子串在source字符串中的开始位置</returns>
+        public static int KmpIndexOf(string s, string t)
+        {
+            int i = 0, j = 0, v;
+            int[] nextVal = GetNextVal(t);
+
+            while (i < s.Length && j < t.Length)
+            {
+                if (j == -1 || s[i] == t[j])
+                {
+                    i++;
+                    j++;
+                }
+                else
+                {
+                    j = nextVal[j];
+                }
+            }
+
+            if (j >= t.Length)
+                v = i - t.Length;
+            else
+                v = -1;
+
+            return v;
+        }
+
+        private static int[] GetNextVal(string t)
+        {
+            int j = 0, k = -1;
+            int[] nextVal = new int[t.Length];
+
+            nextVal[0] = -1;
+
+            while (j < t.Length - 1)
+            {
+                if (k == -1 || t[j] == t[k])
+                {
+                    j++;
+                    k++;
+                    if (t[j] != t[k])
+                    {
+                        nextVal[j] = k;
+                    }
+                    else
+                    {
+                        nextVal[j] = nextVal[k];
+                    }
+                }
+                else
+                {
+                    k = nextVal[k];
+                }
+            }
+
+            return nextVal;
+        }
+
+        #endregion
     }
 }

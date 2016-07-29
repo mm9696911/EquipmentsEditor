@@ -1,5 +1,6 @@
 ﻿using EquipmentsEditor.Model;
 using EquipmentsEditor.Services;
+using Process;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,9 +13,9 @@ namespace EquipmentsEditor.Forms
 {
     public partial class Main : Form
     {
-        LoadDataService loadDataService = new LoadDataService();
         DataModel dataModel = new DataModel();
         CountryModel country = new CountryModel();
+        LoadDataService loadDataService = new LoadDataService();
         private string originalFilePath = string.Empty;
 
         public Main()
@@ -40,7 +41,16 @@ namespace EquipmentsEditor.Forms
                     this.LV_Countries.Items.Clear();
                     this.tv_EquipmentType.Nodes.Clear();
                     originalFilePath = saveGamePath;
-                    loadDataService.LoadBacisData(dataModel, saveGamePath);
+                    loadDataService.filePath = saveGamePath;
+                    loadDataService.dataModel = dataModel;
+
+                    PercentProcessOperator process = new PercentProcessOperator();
+                    process.BackgroundWork = loadDataService.LoadBacisData;
+                    process.MessageInfo = "正在加载基本数据";
+                    process.BackgroundWorkerCompleted += new EventHandler<BackgroundWorkerEventArgs>(process_BackgroundWorkerCompleted);
+                    process.Start();
+
+                    //loadDataService.LoadBacisData(dataModel, saveGamePath);
                     foreach (CountryModel country in dataModel.CountriesList)
                     {
                         ListViewItem item = new ListViewItem(country.Name);
@@ -131,7 +141,7 @@ namespace EquipmentsEditor.Forms
                 this.tv_EquipmentType.Nodes.Clear();
                 this.dataGridView1.DataSource = new List<EquipmentModel>();
                 if (country.EquipmentsList.Count == 0)
-                    loadDataService.LoadDataByCountry(dataModel, country);
+                    loadDataService.LoadDataByCountry( country);
 
                 XDocument xdoc = XDocument.Load(System.IO.Directory.GetCurrentDirectory() + "\\ConfigFile\\Equipment.xml");
                 XElement xeRoot = xdoc.Root;//2.获取根节点
@@ -141,6 +151,31 @@ namespace EquipmentsEditor.Forms
                 this.tv_EquipmentType.Nodes[0].Expand();
             }
         }
+
+
+
+        #region 进度条
+        public static void process_BackgroundWorkerCompleted(object sender, BackgroundWorkerEventArgs e)
+        {
+            if (e.BackGroundException == null)
+            {
+                //MessageBox.Show("执行完毕");
+            }
+            else
+            {
+               CommonService.ShowErrorMessage("异常:" + e.BackGroundException.Message);
+            }
+        }
+
+        //public static void DoWithProcess(Action<int> percent)
+        //{
+        //    //for (int i = 0; i <= 300; i++)
+        //    //{
+        //    //Thread.Sleep(50);
+        //    percent(i / 3);
+        //    //}
+        //}
+        #endregion
 
         #region 后勤
         private void LoadNodes(XElement xeRoot, TreeNode treeViewRoot, CountryModel country)

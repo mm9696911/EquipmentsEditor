@@ -26,17 +26,25 @@ namespace EquipmentsEditor.Services
             foreach (CountryModel countryModel in dataModel.CountriesList.FindAll(e => e.IsChanged == true))
             {
                 int indexNum = dataModel.CountriesList.FindIndex(e => e.ShortName == countryModel.ShortName);
-                CountryModel nextModel = dataModel.CountriesList[indexNum + 1];
 
                 int countriesStrIndex = fileStr.IndexOf("\r\ncountries=");
                 int currentCountrieStrIndex = fileStr.IndexOf(new StringBuilder().AppendFormat("\r\n\t{0}=", countryModel.ShortName).ToString()
                                                     , countriesStrIndex);
-                int nextCountrieStrIndex = fileStr.IndexOf(new StringBuilder().AppendFormat("\r\n\t{0}=", nextModel.ShortName).ToString()
-                                                    , countriesStrIndex);
+                int nextCountrieStrIndex = 0;
+                if (dataModel.CountriesList[indexNum] != countryModel)
+                {
+                    CountryModel nextModel = dataModel.CountriesList[indexNum + 1];
+                    nextCountrieStrIndex = fileStr.IndexOf(new StringBuilder().AppendFormat("\r\n\t{0}=", nextModel.ShortName).ToString()
+                                                       , countriesStrIndex);
+                }
+                else
+                {
+                    nextCountrieStrIndex = fileStr.IndexOf("\r\nfaction", countriesStrIndex);
+                }
 
                 string currentCountryStr = fileStr.Substring(currentCountrieStrIndex, nextCountrieStrIndex - currentCountrieStrIndex);
                 string productionAnotherStr = currentCountryStr;
-                int productionStrIndex = fileStr.IndexOf("production=", countriesStrIndex);
+                int productionStrIndex = fileStr.IndexOf("production=", currentCountrieStrIndex);
                 int flagStrIndex = fileStr.IndexOf("flags=", productionStrIndex);
                 List<string> list1 = CommonService.SpiltText(productionAnotherStr, "production=", out productionAnotherStr);
                 StringBuilder sb = new StringBuilder();

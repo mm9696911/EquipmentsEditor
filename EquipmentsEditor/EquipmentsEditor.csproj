@@ -37,6 +37,9 @@
     <ApplicationIcon>OOBEditor.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Process">
+      <HintPath>..\Process\bin\Debug\Process.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
