@@ -38,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Process">
-      <HintPath>..\Process\bin\Debug\Process.dll</HintPath>
+      <HintPath>..\Process\bin\Release\Process.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

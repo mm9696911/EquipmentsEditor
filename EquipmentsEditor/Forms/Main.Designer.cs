@@ -50,6 +50,7 @@
             this.CountryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsForigen = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ob = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.btn_TranNew = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -122,6 +123,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btn_TranNew);
             this.tabPage1.Controls.Add(this.btn_RecoverAll);
             this.tabPage1.Controls.Add(this.btn_DeleteAll);
             this.tabPage1.Controls.Add(this.tv_EquipmentType);
@@ -251,6 +253,17 @@
             this.ob.ReadOnly = true;
             this.ob.TrueValue = "yes";
             // 
+            // btn_TranNew
+            // 
+            this.btn_TranNew.Location = new System.Drawing.Point(379, 6);
+            this.btn_TranNew.Name = "btn_TranNew";
+            this.btn_TranNew.Size = new System.Drawing.Size(87, 23);
+            this.btn_TranNew.TabIndex = 4;
+            this.btn_TranNew.Tag = "批量转换装备为最新型号且不可逆";
+            this.btn_TranNew.Text = "批量转换最新";
+            this.btn_TranNew.UseVisualStyleBackColor = true;
+            this.btn_TranNew.Click += new System.EventHandler(this.btn_TranNew_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -297,5 +310,6 @@
         private System.Windows.Forms.Button btn_RecoverAll;
         private System.Windows.Forms.Button btn_DeleteAll;
         private System.Windows.Forms.ToolStripMenuItem 生成存档ToolStripMenuItem;
+        private System.Windows.Forms.Button btn_TranNew;
     }
 }

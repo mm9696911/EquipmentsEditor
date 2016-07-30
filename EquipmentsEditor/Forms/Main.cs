@@ -13,7 +13,7 @@ namespace EquipmentsEditor.Forms
 {
     public partial class Main : Form
     {
-        DataModel dataModel = new DataModel();
+        DataModel dataModel;
         CountryModel country = new CountryModel();
         LoadDataService loadDataService = new LoadDataService();
         private string originalFilePath = string.Empty;
@@ -22,6 +22,7 @@ namespace EquipmentsEditor.Forms
         {
             InitializeComponent();
             this.dataGridView1.AutoGenerateColumns = false;
+            EnableButton(false);
         }
 
         private void 打开存档ToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -38,6 +39,7 @@ namespace EquipmentsEditor.Forms
                 string saveGamePath = fileDialog.FileName;
                 if (!string.IsNullOrEmpty(saveGamePath))
                 {
+                    dataModel = new DataModel();
                     this.LV_Countries.Items.Clear();
                     this.tv_EquipmentType.Nodes.Clear();
                     originalFilePath = saveGamePath;
@@ -51,7 +53,7 @@ namespace EquipmentsEditor.Forms
                     process.Start();
 
                     //loadDataService.LoadBacisData(dataModel, saveGamePath);
-                    foreach (CountryModel country in dataModel.CountriesList)
+                    foreach (CountryModel country in dataModel.CountriesList.FindAll(c => c.IsDeleted == false))
                     {
                         ListViewItem item = new ListViewItem(country.Name);
                         item.ToolTipText = country.ShortName;
@@ -140,8 +142,10 @@ namespace EquipmentsEditor.Forms
             {
                 this.tv_EquipmentType.Nodes.Clear();
                 this.dataGridView1.DataSource = new List<EquipmentModel>();
+                EnableButton(false);
+
                 if (country.EquipmentsList.Count == 0)
-                    loadDataService.LoadDataByCountry( country);
+                    loadDataService.LoadDataByCountry(country);
 
                 XDocument xdoc = XDocument.Load(System.IO.Directory.GetCurrentDirectory() + "\\ConfigFile\\Equipment.xml");
                 XElement xeRoot = xdoc.Root;//2.获取根节点
@@ -152,7 +156,14 @@ namespace EquipmentsEditor.Forms
             }
         }
 
-
+        #region 通用方法
+        private void EnableButton(bool isEnable)
+        {
+            this.btn_DeleteAll.Enabled = isEnable;
+            this.btn_RecoverAll.Enabled = isEnable;
+            this.btn_TranNew.Enabled = isEnable;
+        }
+        #endregion
 
         #region 进度条
         public static void process_BackgroundWorkerCompleted(object sender, BackgroundWorkerEventArgs e)
@@ -163,7 +174,7 @@ namespace EquipmentsEditor.Forms
             }
             else
             {
-               CommonService.ShowErrorMessage("异常:" + e.BackGroundException.Message);
+                CommonService.ShowErrorMessage("异常:" + e.BackGroundException.Message);
             }
         }
 
@@ -219,6 +230,7 @@ namespace EquipmentsEditor.Forms
             string equipTypeStr = this.tv_EquipmentType.SelectedNode.Name.ToString();
             this.dataGridView1.DataSource = new List<EquipmentModel>();
             BindGridview(equipTypeStr);
+            EnableButton(true);
 
         }
 
@@ -277,6 +289,30 @@ namespace EquipmentsEditor.Forms
             }
             string equipTypeStr = this.tv_EquipmentType.SelectedNode.Name.ToString();
             BindGridview(equipTypeStr);
+        }
+
+        private void btn_TranNew_Click(object sender, EventArgs e)
+        {
+            List<EquipmentModel> equipmentList = country.EquipmentsList.FindAll(f => f.IsDeleted == false);
+            foreach (EquipmentModel model in equipmentList)
+            {
+                EquipmentModel newModel = new EquipmentModel();
+                for (int i = 5; i >= 0; i--)
+                {
+                    string newModelTyprStr = new StringBuilder().AppendFormat("{0}_{1}", model.TypeStr.Remove(model.TypeStr.LastIndexOf("_")), i).ToString();
+                    newModel = country.EquipmentsList.Find(f => f.TypeStr == newModelTyprStr);
+                    if (newModel != null)
+                        break;
+                }
+                //newModel = country.EquipmentsList.Find(f => f.IsForeignLease == false && f.TypeStr == model.TypeStr);
+                if (newModel.Id != null && model.TypeStr!=newModel.TypeStr )
+                {
+                    newModel.Quantity += model.Quantity;
+                    model.Quantity = 0;
+                }
+            }
+            //string equipTypeStr = this.tv_EquipmentType.SelectedNode.Name.ToString();
+            BindGridview("");
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)

@@ -8,6 +8,9 @@ namespace EquipmentsEditor.Model
 {
     public class EquipmentModel : EquipmentBasicModel
     {
+        public EquipmentModel()
+        { 
+        }
         public EquipmentModel(EquipmentBasicModel basic,bool isForeignLease)
         {
             this.Id = basic.Id;

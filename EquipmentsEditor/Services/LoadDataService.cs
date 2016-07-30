@@ -132,7 +132,7 @@ namespace EquipmentsEditor.Services
                         theatresNum = str.IndexOf("theatres", beforeStart, currentStart - beforeStart);
                         if (theatresNum <= 0)
                         {
-                            dataModel.CountriesList.RemoveAt(dataModel.CountriesList.Count - 1);
+                            dataModel.CountriesList[dataModel.CountriesList.Count - 1].IsDeleted=true;
                         }
                     }
                     //if (theatresNum > 0 || i==0)
