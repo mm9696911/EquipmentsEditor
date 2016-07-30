@@ -272,6 +272,7 @@ namespace EquipmentsEditor.Forms
             }
             string equipTypeStr = this.tv_EquipmentType.SelectedNode.Name.ToString();
             BindGridview(equipTypeStr);
+            country.IsChanged = true;
         }
 
         private void btn_RecoverAll_Click(object sender, EventArgs e)
@@ -289,6 +290,7 @@ namespace EquipmentsEditor.Forms
             }
             string equipTypeStr = this.tv_EquipmentType.SelectedNode.Name.ToString();
             BindGridview(equipTypeStr);
+            country.IsChanged = true;
         }
 
         private void btn_TranNew_Click(object sender, EventArgs e)
@@ -313,6 +315,7 @@ namespace EquipmentsEditor.Forms
             }
             //string equipTypeStr = this.tv_EquipmentType.SelectedNode.Name.ToString();
             BindGridview("");
+            country.IsChanged = true;
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)

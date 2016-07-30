@@ -51,6 +51,7 @@
             this.IsForigen = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ob = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btn_TranNew = new System.Windows.Forms.Button();
+            this.tabArmy = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -115,6 +116,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabArmy);
             this.tabControl1.Location = new System.Drawing.Point(193, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -264,6 +266,15 @@
             this.btn_TranNew.UseVisualStyleBackColor = true;
             this.btn_TranNew.Click += new System.EventHandler(this.btn_TranNew_Click);
             // 
+            // tabArmy
+            // 
+            this.tabArmy.Location = new System.Drawing.Point(4, 22);
+            this.tabArmy.Name = "tabArmy";
+            this.tabArmy.Size = new System.Drawing.Size(852, 338);
+            this.tabArmy.TabIndex = 1;
+            this.tabArmy.Text = "陆军";
+            this.tabArmy.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -311,5 +322,6 @@
         private System.Windows.Forms.Button btn_DeleteAll;
         private System.Windows.Forms.ToolStripMenuItem 生成存档ToolStripMenuItem;
         private System.Windows.Forms.Button btn_TranNew;
+        private System.Windows.Forms.TabPage tabArmy;
     }
 }
